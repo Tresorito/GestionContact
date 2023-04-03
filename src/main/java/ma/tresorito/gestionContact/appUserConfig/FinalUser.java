@@ -1,6 +1,9 @@
 package ma.tresorito.gestionContact.appUserConfig;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import ma.tresorito.gestionContact.appContactConfig.finalContact;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +15,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class FinalUser implements UserDetails, Serializable {
 
     @Id
@@ -21,22 +27,11 @@ public class FinalUser implements UserDetails, Serializable {
     private String lastName;
     private String email;
     private String passWord;
-
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "finalUser")
     private Set<finalContact> contactList;
 
-    public FinalUser(String firstName,
-                     String lastName,
-                     String email,
-                     String passWord) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passWord = passWord;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

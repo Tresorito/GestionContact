@@ -1,11 +1,9 @@
 package ma.tresorito.gestionContact.appContactConfig;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.tresorito.gestionContact.appUserConfig.FinalUser;
 
 import java.io.Serializable;
 
@@ -21,6 +19,10 @@ public class finalContact implements Serializable {
     private String position;
     private String email;
     private int project;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private FinalUser finalUser;
 
     public finalContact(String name, String position, String email, int project) {
         this.name = name;

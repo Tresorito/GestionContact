@@ -1,6 +1,5 @@
 package ma.tresorito.gestionContact.jwtSecurity;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +24,7 @@ public class SecurityConfiguration {
                 csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("")
+                .requestMatchers("gestionContact/v1/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
