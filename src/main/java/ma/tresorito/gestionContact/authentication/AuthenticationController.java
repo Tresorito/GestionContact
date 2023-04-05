@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "gestionContact/v1")
+@RequestMapping(path = "gestionContact/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

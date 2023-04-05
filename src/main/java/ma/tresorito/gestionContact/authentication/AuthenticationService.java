@@ -6,6 +6,8 @@ import ma.tresorito.gestionContact.appUserConfig.FinalUserService;
 import ma.tresorito.gestionContact.appUserConfig.Role;
 import ma.tresorito.gestionContact.jwtSecurity.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -51,11 +53,18 @@ public class AuthenticationService {
                signUpRequest.getEmail(),
                signUpRequest.getPassWord()
         );
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        try{
+            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        }catch (DisabledException d) {
+            throw new IllegalStateException("user disabled");
+        }catch (BadCredentialsException b) {
+            throw new IllegalStateException("Bad credential(s) from user");
+        }
 
         UserDetails user = userDetailsService.loadUserByUsername(signUpRequest.getEmail());
 
-        String token = jwtService.generateToken(user);
+        String token = jwtService.generateToken(Map.of("Authentication", user.getAuthorities()), user);
         return AuthenticationResponse.builder()
                 .token(token)
                 .build();

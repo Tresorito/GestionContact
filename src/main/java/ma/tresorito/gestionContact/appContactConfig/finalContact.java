@@ -21,7 +21,7 @@ public class finalContact implements Serializable {
     private int project;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private FinalUser finalUser;
 
     public finalContact(String name, String position, String email, int project) {
